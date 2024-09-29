@@ -1,0 +1,66 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel-app
+    ports:
+      - "9000:9000"
+    volumes:
+      - "C:/xampp/htdocs/laravel-angular/backend:/var/www/html/laravel-angular/backend"
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: host.docker.internal
+      DB_PORT: 3306
+      DB_DATABASE: assignment
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    networks:
+      - laravel
+
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    ports:
+      - "8000:80"
+    volumes:
+      - "C:/xampp/htdocs/laravel-angular/backend:/var/www/html/laravel-angular/backend"
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - laravel
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: assignment
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_LOG_CONSOLE: debug
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - laravel
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - laravel
+
+volumes:
+  db_data:
+
+networks:
+  laravel:
+    driver: bridge
