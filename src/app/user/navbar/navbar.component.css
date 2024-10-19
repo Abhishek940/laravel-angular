@@ -1,0 +1,83 @@
+/* Sidebar Styles */
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: width 0.5s;
+    padding-top: 60px;
+    z-index: 1; /* Ensure sidebar is above content */
+}
+
+.sidebar.active {
+    width: 250px;
+}
+
+.sidebar .sidenav {
+    padding: 15px;
+    text-align: center;
+}
+
+.sidebar a {
+    padding: 10px 0;
+    text-decoration: none;
+    font-size: 18px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+/* Content Styles */
+.content {
+    margin-left: 0; /* Adjusted to 0 to ensure content is not covered */
+    padding: 16px;
+    transition: margin-left 0.5s; /* Add transition effect */
+}
+
+/* When sidebar is active, shift content to right */
+.sidebar.active + .content {
+    margin-left: 250px;
+}
+
+/* Header Styles */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.toggle-sidebar {
+    cursor: pointer;
+    padding: -10px;
+    margin-left: 20px; 
+}
+
+.toggle-sidebar i {
+    color: white;
+    font-size: 24px;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    .toggle-sidebar {
+        margin-left: 10px; 
+    }
+}

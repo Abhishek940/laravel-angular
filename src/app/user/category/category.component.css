@@ -1,0 +1,46 @@
+.pageHeading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .pageHeading .pageName {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .pageHeading .indicator {
+    font-size: 14px;
+    color: #888;
+  }
+  
+  .tabArea {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .tabArea a {
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+  }
+  
+  .tabArea a.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .tabArea a:hover {
+    background-color: #0056b3;
+    color: white;
+  }
+  
+  .neuro {
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+  }
+  

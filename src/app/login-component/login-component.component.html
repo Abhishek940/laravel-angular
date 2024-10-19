@@ -1,0 +1,30 @@
+<div class="parent">
+    <div class="wrapper">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <h1>Login</h1>
+            <div class="input-box">
+              <label class="form-label" for="form3Example3">UserId</label>
+              <input type="text" formControlName="email" class="form-control form-control-lg"
+              placeholder="Enter a UserId" />
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+              <label class="form-label" for="form3Example4">Password</label>
+              <input type="password" formControlName="password" class="form-control form-control-lg"
+              placeholder="Enter password" />
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+          
+            <br>
+            <button type="submit" class="btn">Login</button><br><br><br>
+            <div class="remember-forgot">
+            
+              <div routerLink="/forgotPassword" style="text-align: center; padding-top: 10px; cursor: pointer;">Forgot Password</div>
+
+            </div>
+         </form>
+    </div>
+  </div>
+  
+  
+  

@@ -1,0 +1,35 @@
+<!-- container.component.html -->
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="toggle-sidebar" (click)="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                    
+                </div>
+            </div>
+            <div class="col header-title">
+               
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 sidebar" [ngClass]="{'active': isSidebarOpen}">
+            <div class="sidenav">
+               <!-- <a routerLink="/Add/SummerVacationInspection">Add Summer Vacation</a>
+                <a routerLink="/ViewSummerVacation">View Summer Vacation</a>
+                <a routerLink="/Add/InspectionConfigration">Add Configuration</a>
+                <a routerLink="/ViewInspectionConfigrationComponent">View Configuration</a>-->
+                <a routerLink="/Dashboard">Dashboard</a>
+                <a routerLink="/user/AddUser" *ngIf="isAdmin">Add USer</a>
+                <a routerLink="/user/viewUser">View Users</a>
+                <a routerLink="/user/AddCategory">Manage Category</a>
+                <a routerLink="/user/changePassword">Change Password</a>
+                <a routerLink="/Webex">Webex</a>
+            </div>
+        </div>
+        
+    </div>
+</div>

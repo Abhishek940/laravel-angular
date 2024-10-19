@@ -1,0 +1,152 @@
+<app-dashboard></app-dashboard>
+
+<div class="container" >
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <h2 style="text-align: center">Registration Form</h2>
+            <br />
+            <form [formGroup]="registration" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label class="mb-1">Name</label>
+                    </div>
+                    <div class="col-md-9">
+                          <input type="text" formControlName="name" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label class="mb-1">Father's Name</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" formControlName="fname" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label class="mb-1">Mobile No.</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" formControlName="mobileno" class="form-control" (keypress)="NumericValue($event)" maxlength="10">
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label class="mb-1">Email Id</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" formControlName="email" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label class="mb-1">Image</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="file"  id="imageInput" formControlName="image" (change)="onFileChange($event)"  class="form-control"/>
+                        <img [src]="imageSrc" *ngIf="imageSrc" style="height: 200px; width:200px" class="form-control">
+                    </div>
+                 
+                </div>
+
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label class="mb-1">Gender</label>
+                    </div>
+                    <div class="col-md-9">
+                        <label class="radio-inline" style="margin-right: 10px;">
+                            <input type="radio" formControlName="gender" value="1"> Male
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" formControlName="gender" value="2"> Female
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label class="mb-1">Role</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control" formControlName="role_id">
+                            <option value="" selected>--select Role--</option>
+                            <option *ngFor="let role of roleData" [value]="role.id">
+                                {{ role.role_name }}</option>
+                          </select>
+                    </div>
+                </div>
+                
+               <div class="row mb-4">
+                    <div class="col-md-3">
+                     <label class="mb-1">Address</label>
+                    </div>
+                    <div class="col-md-9">
+                       <textarea class="form-control"  formControlName="address" rows="4" required></textarea>
+                       <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+                     </div>
+                </div>
+
+              <!--  <angular-editor formControlName="address" [config]="Editorconfig"></angular-editor>-->
+             <!--   <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label class="mb-1">Address</label>
+                    </div>
+                    <div class="col-md-9">
+                        <textarea id="editor" name="editor" formControlName="address"></textarea>
+
+                      </div>
+                </div>
+            -->
+                
+               
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                      <label class="mb-1">Previous Organization</label>
+                    </div>
+                    <div class="col-md-9">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Organization Name</th>
+                            <th>Designation</th>
+                            <th>From Date</th>
+                            <th>To Date</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                      
+                          <tbody formArrayName="dynamicRows">
+                            <tr *ngFor="let row of dynamicRows.controls; let i = index" [formGroupName]="i">
+                              <td><input type="text" formControlName="company_name" class="form-control" /></td>
+                              <td><input type="text" formControlName="designation" class="form-control" /></td>
+                              <td><input type="date" formControlName="fromDate" class="form-control" /></td>
+                              <td><input type="date" formControlName="toDate" class="form-control" /></td>
+                              <td>
+                                <button *ngIf="i !== 0" type="button" (click)="removeRow(i)" class="btn btn-danger">Remove</button>
+                                <button *ngIf="i === dynamicRows.length - 1" type="button" (click)="addMoreRows()" class="btn btn-success" style="margin-top:10px">AddMore</button>
+                              </td>
+                            </tr>
+                          </tbody>
+
+                      </table>
+                      
+                    </div>
+                  </div>
+          
+     
+              <div class="text-center">
+                    <button type="submit" class="btn btn-success">Submit</button>&nbsp;&nbsp;
+                    <button type="button" class="btn btn-danger">Reset</button>
+                </div>
+            </form>
+        </div>
+
+             
+    </div>
+</div>

@@ -1,0 +1,445 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <h2 style="text-align: center;">Summer Vacation Inspection</h2><br>
+            <form #myForm="ngForm" (ngSubmit)="onSubmit()">
+                
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="district2" class="mb-1">District <br>जिले का नाम</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select name="district" class="form-select" required [(ngModel)]="formData.district" #districtInput (change)="onDistrictChange()">
+                            <option value="" selected>--Select District--</option>
+                            <option *ngFor="let district of resultListData" [value]="district.districtId">
+                                {{ district.districtcode }} - {{ district.districtName }}
+                            </option>
+                        </select>
+                    </div>
+                    
+                    
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label  class="mb-1">Block <br> ब्लॉक का नाम:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select name="block" class="form-select" [(ngModel)]="formData.block" (change)="onBlockChange()">
+                            <option value="">--Select Block--</option>
+                            <option *ngFor="let block of blockData" [value]="block.blockId">
+                                  {{ block.blockCode }} - {{ block.blockName }}
+                           </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="date" class="mb-1">Name Of School <br> विद्यालय का नाम</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select name="schoolId" class="form-select" [(ngModel)]="formData.schoolId" (change)="onBlockChange()">
+                        <option value="">--Select School--</option>
+                        <option *ngFor="let school of schoolData" [value]="school.schoolId">
+                            {{ school.schoolUdiseCode}} - {{school.schoolName}}
+                        </option>
+                    </select>
+                    </div>
+                </div>
+                
+
+             <!--   <div class="row mb-4" *ngIf="resultListData.length">
+                    <div class="col-md-3">
+                        <label for="date" class="mb-1">Inspection Date <br> निरीक्षण की दिनांक</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="date" name="inspectionDate" class="form-control" [(ngModel)]="resultListData[0].startDate" [max]="endDate">
+                    </div>
+                </div> -->
+
+          
+                  
+                
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="date" class="mb-1">Inspection time <br> निरीक्षण का समय</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="date" class="form-control" name="inspectionDate" [(ngModel)] ="formData.inspectionDate">
+                    </div>
+                </div>
+                
+                  
+                  
+                        
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="date" class="mb-1">Inspection time <br> निरीक्षण का समय</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="time" name="inspectionTime" class="form-control" [(ngModel)]="formData.inspectionTime">
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label  class="mb-1">Number of teachers posted in the school / विद्यालय में पदस्थापित शिक्षकों की संख्या (प्रधानाध्यापक को छोड़कर)</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" name="teacherPosted" class="form-control" [(ngModel)]="formData.teacherPosted" (keypress)="NumericValue($event)">
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="date" class="mb-1">Number of teachers Present in the school / विद्यालय में उपस्थित शिक्षकों की संख्या</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" name="teacherPresent" class="form-control" [(ngModel)]="formData.teacherPresent" (keypress)="NumericValue($event)">
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="date" class="mb-1">Name of teachers who are on unreported/unauthorized leave / असूचित/अनाधिकृत अवकाश में रहने वाले शिक्षकों का नाम</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" name="unreportedLeave" class="form-control" [(ngModel)]="formData.unreportedLeave" (keypress)="NumericValue($event)">
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                  <p><b>Details of the students who failed and did not appear in class V and VIII in the annual examination-2024 / वार्षिक परीक्षा -2024 में कक्षा V एवं VIII के अनुत्तीर्ण एवं परीक्षा में  सम्मिलित नहीं होने वाले बच्चों के संबंधित विवरण</b> </p>
+                        <div class="table-responsive text-center">
+                            <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                    <th>Class</th>
+                                    <th>Total number of students who failed</th>
+                                    <th>Total number of students present / कुल उपस्थित बच्चों की संख्या</th>
+                                    <th>Percentage attendance / प्रतिशत उपस्थिति</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>V</td>
+                                    <td><input type="text"  name="annualExamClass5AbsentStudent" class="form-control" maxlength="5" [(ngModel)]="formData.annualExamClass5AbsentStudent" #failedStudentv="ngModel" (keypress)="NumericValue($event)" (input)="calculateTotal()"></td>
+                                    <td><input type="text" name="annualExamClass5PresentStudent" class="form-control" [(ngModel)]="formData.annualExamClass5PresentStudent" #presentStudentv="ngModel" (input)="calculateTotal()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name="annualExamClass5PercentageStudent" class="form-control" [(ngModel)]="formData.annualExamClass5PercentageStudent"  [value]="((formData.annualExamClass5AbsentStudent / formData.annualExamClass5PresentStudent) * 100 || 0).toFixed(2)"  readonly></td>
+
+                                
+                                    
+                                </tr>
+                                <tr>
+                                    <td>VIII</td>
+                                    <td><input type="text" name="annualExamClass8AbsentStudent" class="form-control" [(ngModel)]="formData.annualExamClass8AbsentStudent" #failedStudentVIII="ngModel" (input)="calculateTotal()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name="annualExamClass8PresentStudent" class="form-control" [(ngModel)]="formData.annualExamClass8PresentStudent" #presentStudentVIII="ngModel" (input)="calculateTotal()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name="annualExamClass8PercentageStudent" class="form-control" [(ngModel)]="formData.annualExamClass8PercentageStudent"  [value]="((formData.annualExamClass8AbsentStudent / formData.annualExamClass8PresentStudent) * 100 || 0).toFixed(2)"  readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>Total / योग</td>
+                                    <td><input type="text" name="totalFailedStudent" class="form-control" [(ngModel)]="formData.totalFailedStudent" readonly></td>
+                                    <td><input type="text" name="totalPresentStudent" class="form-control" [(ngModel)]="formData.totalPresentStudent" readonly></td>
+                                    <td><input type="text" name="totalPercentStudent" class="form-control" [(ngModel)]="formData.totalPercentStudent" readonly></td>
+                                </tr>
+                                
+
+                            </tbody>
+                        </table>
+                        </div>
+                    
+                </div>
+
+                <div class="row mb-4">
+                    <p><b>Details of student identified and present under “Mission Daksh” / ‘‘मिशन दक्ष’’ के तहत चिन्ह्रित एवं उपस्थित बच्चों का विवरण </b></p>
+                        <div class="table-responsive text-center">
+                            <table class="table table-bordered">
+                            <thead>
+                             <tr>
+                                <th>Class</th>
+                                <th>Identified Student/चिन्ह्रित बच्चे</th>
+                                <th>marked student / उपस्थित बच्चे</th>
+                                <th>percentage attendance / प्रतिशत उपस्थिति</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>III</td>
+                                    <td><input type="text" name="missionDakshClass3IdentifiedChildren" class="form-control" [(ngModel)]="formData.missionDakshClass3IdentifiedChildren" (input)="calculateTotalMissionDaksh()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name="missionDakshClass3PresentChildren" class="form-control" [(ngModel)]="formData.missionDakshClass3PresentChildren" (input)="validatetotalmisssionDaksh()" (keypress)="calculateTotalMissionDaksh()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name="missionDakshClass3PercenatgePresent" class="form-control" [(ngModel)]="formData.missionDakshClass3PercenatgePresent" [value]="((formData.missionDakshClass3PresentChildren / formData.missionDakshClass3IdentifiedChildren) * 100 || 0).toFixed(2)" readonly></td>
+                                  </tr>
+                                  <tr>
+                                    <td>IV</td>
+                                    <td><input type="text" name="missionDakshClass4IdentifiedChildren" class="form-control" [(ngModel)]="formData.missionDakshClass4IdentifiedChildren" (input)="calculateTotalMissionDaksh()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name="missionDakshClass4PresentChildren" class="form-control" [(ngModel)]="formData.missionDakshClass4PresentChildren" (input)="validatetotalmisssionDaksh()"  (keypress)="calculateTotalMissionDaksh()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name="missionDakshClass4PercenatgePresent" class="form-control" [(ngModel)]="formData.missionDakshClass4PercenatgePresent" [value]="((formData.missionDakshClass4PresentChildren / formData.missionDakshClass4IdentifiedChildren) * 100 || 0).toFixed(2)" readonly></td>
+                                  </tr>
+                                  
+                                <tr>
+                                    <td>V</td>
+                                    <td><input type="text" name ="missionDakshClass5IdentifiedChildren" class="form-control" [(ngModel)]="formData.missionDakshClass5IdentifiedChildren" (input)="calculateTotalMissionDaksh()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name ="missionDakshClass5PresentChildren" class="form-control" [(ngModel)]="formData.missionDakshClass5PresentChildren" (input)="validatetotalmisssionDaksh()" (keypress)="calculateTotalMissionDaksh()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name ="missionDakshClass5PercenatgePresent" class="form-control" [(ngModel)]="formData.missionDakshClass5PercenatgePresent" [value]="((formData.missionDakshClass5PresentChildren / formData.missionDakshClass5IdentifiedChildren) * 100 || 0).toFixed(2)" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>VI</td>
+                                    <td><input type="text" name ="missionDakshClass6IdentifiedChildren" class="form-control" [(ngModel)]="formData.missionDakshClass6IdentifiedChildren" (input)="calculateTotalMissionDaksh()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name ="missionDakshClass6PresentChildren" class="form-control" [(ngModel)]="formData.missionDakshClass6PresentChildren" (input)="validatetotalmisssionDaksh()" (keypress)="calculateTotalMissionDaksh()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name ="missionDakshClass6PercenatgePresent" class="form-control" [(ngModel)]="formData.missionDakshClass6PercenatgePresent" [value]="((formData.missionDakshClass6PresentChildren/ formData.missionDakshClass6IdentifiedChildren) * 100 || 0).toFixed(2)" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>VII</td>
+                                    <td><input type="text" name ="missionDakshClass7IdentifiedChildren" class="form-control" [(ngModel)]="formData.missionDakshClass7IdentifiedChildren" (input)="calculateTotalMissionDaksh()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name ="missionDakshClass7PresentChildren" class="form-control" [(ngModel)]="formData.missionDakshClass7PresentChildren" (input)="validatetotalmisssionDaksh()" (keypress)="calculateTotalMissionDaksh()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name ="missionDakshClass7PercenatgePresent" class="form-control" [(ngModel)]="formData.missionDakshClass7PercenatgePresent" [value]="((formData.missionDakshClass7PresentChildren / formData.missionDakshClass7IdentifiedChildren) * 100 || 0).toFixed(2)" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>VIII</td>
+                                    <td><input type="text" name ="missionDakshClass8IdentifiedChildren" class="form-control" [(ngModel)]="formData.missionDakshClass8IdentifiedChildren" (input)="calculateTotalMissionDaksh()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name ="missionDakshClass8PresentChildren" class="form-control" [(ngModel)]="formData.missionDakshClass8PresentChildren" (input)="validatetotalmisssionDaksh()" (keypress)="calculateTotalMissionDaksh()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name ="missionDakshClass8IdentifiedChildren" class="form-control" [(ngModel)]="formData.missionDakshClass8IdentifiedChildren" [value]="((formData.missionDakshClass8PresentChildren / formData.missionDakshClass8IdentifiedChildren) * 100 || 0).toFixed(2)" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>Total / योग</td>
+                                    <td><input type="text" name ="totalidentifiedstudent" class="form-control" [(ngModel)]="formData.totalidntifiedStudent" readonly></td>
+                                    <td><input type="text" name ="totalmarkedStudent" class="form-control" [(ngModel)]="formData.totalmarkedStudent" readonly></td>
+                                    <td><input type="text" name ="totalpercentStudent" class="form-control" [(ngModel)]="formData.totalpercentStudent" readonly></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <p><b>Details of the students present in the special class organized for the student who failed and did not appear in class IX and XI in the annual examination - 2024 -/  वार्षिक परीक्षा -2024 में कक्षा IX एवं XI के अनुत्तीर्ण एवं परीक्षा में  सम्मिलित नहीं होने वाले बच्चों के लिए आयोजित विशेष कक्षा में उपस्थित बच्चों के संबंधित विवरण </b></p>
+                    <div class="table-responsive text-center">
+                        <table class="table table-bordered">
+                            <thead>
+                                
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Total number of student who failed and did not appear in the examination / कुल अनुत्तीर्ण एवं परीक्षा में सम्मिलित नहीं होने वाले बच्चों की संख्या</th>
+                                    <th>Total number of student present / कुल उपस्थित बच्चों की संख्या</th>
+                                    <th>Percentage attendance / प्रतिशत उपस्थिति</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>IX</td>
+                                    <td><input type="text" name ="failedStudentIX" class="form-control" [(ngModel)]="formData.failedStudentIX" (input)="calculateTotalStudent()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name ="PresentStudentIX" class="form-control" [(ngModel)]="formData.PresentStudentIX" (input)="calculateTotalStudent()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name ="PercentStudentIX" class="form-control" [value]="((formData.PresentStudentIX / formData.failedStudentIX) * 100 || 0).toFixed(2)" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>XI</td>
+                                    <td><input type="text" name ="failedStudentXI" class="form-control" [(ngModel)]="formData.failedStudentXI" (input)="calculateTotalStudent()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name ="PresentStudentXI" class="form-control" [(ngModel)]="formData.PresentStudentXI" (input)="calculateTotalStudent()" maxlength="4" (keypress)="NumericValue($event)"></td>
+                                    <td><input type="text" name ="PercentStudentXI" class="form-control" [value]="((formData.PresentStudentXI / formData.failedStudentXI) * 100 || 0).toFixed(2)" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>Total / योग</td>
+                                    <td><input type="text" name ="totalfailedStudents" class="form-control" [(ngModel)]="formData.totalfailedStudents" readonly></td>
+                                    <td><input type="text" name ="totalPresentStudents" class="form-control" [(ngModel)]="formData.totalPresentStudents" readonly></td>
+                                    <td><input type="text" name ="totalPercentStudents" class="form-control" [(ngModel)]="formData.totalPercentStudents" readonly></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-12">
+                    <div class="col-md-3">
+                        <label for="midDayMeal" class="mb-1">Is there a provision for mid-day meal in the school or not? / विद्यालय में मध्याहार भोजन की व्यवस्था है या नहीं -</label>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="mdmConducted" [value]="1" [checked]="formData.mdmConducted === 1" [(ngModel)]="formData.mdmConducted">
+                            <label class="form-check-label">YES हाँ</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="mdmConducted" [value]="2" [checked]="formData.mdmConducted === 2" [(ngModel)]="formData.mdmConducted">
+                            <label class="form-check-label">No नहीं</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="mdmConducted" value=3 [checked]="formData.mdmConducted === 3" [(ngModel)]="formData.mdmConducted">
+                            <label class="form-check-label">NA लागू नहीं</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label class="mb-1">Is there drinking water facility in the school or not? / विद्यालय में पेयजल की सुविधा है अथवा नहीं -</label>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="waterFacility" [value]="1" [checked]="formData.waterFacility === 1" (change)="changeReason()">
+                            <label class="form-check-label" for="yesRadio">YES हाँ</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="waterFacility" [value]="2" [checked]="formData.waterFacility === 2" (change)="changeReason()">
+                            <label class="form-check-label" for="noRadio">No नहीं</label>
+                        </div>
+                    </div>
+                    <div *ngIf="formData.waterFacility === 2" class="col-md-5">
+                        <label for="drinkingWaterReason">If No, Reason / (नहीं होने की स्थिति में कारण अंकित किया जाए)</label>
+                        <textarea name="waterFacilityReason" id="drinkingWaterReason" rows="4" cols="50" [(ngModel)]="waterFacilityReason" #drinkingWaterReasonField="ngModel"></textarea>
+                    </div>
+                </div>
+                
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="drinkingWater" class="mb-1">Is there a housekeeping facility in the school or not? / विद्यालय में हाउसकीपिंग की व्यवस्था है अथवा नहीं-</label>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="houseKeepingFacility" [value]="1" [checked]="formData.houseKeepingFacility === 1" >
+                            <label class="form-check-label" for="yesRadio">YES हाँ</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input"  name="houseKeepingFacility" [(ngModel)]="formData.houseKeepingFacility" [value]="2" [checked]="formData.houseKeepingFacility === 2" >
+                            <label class="form-check-label" for="noRadio">No नहीं</label>
+                        </div>
+                    </div>
+                    <div *ngIf="formData.houseKeepingFacility === 2" class="col-md-5">
+                        <label for="">If No, Reason / (नहीं होने की स्थिति में कारण अंकित किया जाए)</label>
+                        <textarea name="houseKeepingFacilityReason" rows="4" cols="50" [(ngModel)]="formData.houseKeepingFacilityReason">
+                      </textarea>
+                    </div>
+                </div>
+
+                <div class="col-md-3" *ngIf="formData.houseKeepingFacility === 1">
+                    <label for="drinkingWater" class="mb-1"> If yes, is the toilet cleaned in the school Yes/No? / यदि हाँ, तो विद्यालय में शौचालय की साफ - सफाई होती है अथवा नहीं-</label>
+                </div>
+                <div class="col-md-2" *ngIf="formData.houseKeepingFacility === 1">
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input"  name="toiletFacilityStatus" [(ngModel)]="formData.toiletFacilityStatus" [value]="1">
+                        <label class="form-check-label" for="yesRadio">YES हाँ</label>
+                    </div>
+                </div>
+                <div class="col-md-2" *ngIf="formData.houseKeepingFacility === 1">
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input"  name="toiletFacilityStatus" [(ngModel)]="formData.toiletFacilityStatus" [value]="2">
+                        <label class="form-check-label" for="noRadio">No नहीं</label>
+                    </div>
+                </div>
+            
+
+                
+
+
+                <div class="row mb-4" *ngIf="formData.isToiletCleanup === 1">
+                    <div class="col-md-3">
+                        <label for="drinkingWater" class="mb-1">In case of availability of toilet,indicate whether the toilet is clean and functional (Yes/No)/(शौचालय होने की स्थिति में शौचालय साफ एवं क्रियाशील है अथवा नहीं,अंकित किया जाए)-</label>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="isYesToiletFacilityStatus" [(ngModel)]="formData.isToiletAvailable" [value]="1">
+                            <label class="form-check-label" for="yesRadio">YES हाँ</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="isYesToiletFacilityStatus" [(ngModel)]="formData.isToiletAvailable" [value]="2">
+                            <label class="form-check-label" for="noRadio">No नहीं</label>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="" class="mb-1">Is there a night watchman available in the school Yes/No? / विद्यालय में रात्रि प्रहरी उपलब्ध है अथवा नहीं</label>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input"  name="isNightWatchmanAvail" [(ngModel)]="formData.isNightWatchmanAvail" [value]="1" >
+                            <label class="form-check-label" for="yesRadio">YES हाँ</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input"  name="isNightWatchmanAvail" [(ngModel)]="formData.isNightWatchmanAvail" [value]="2" >
+                            <label class="form-check-label" for="noRadio">No नहीं</label>
+                        </div>
+                    </div>
+
+                    <div *ngIf="formData.isNightWatchmanAvail === 2" class="col-md-5">
+                        <label for="">If No, Reason / (नहीं होने की स्थिति में कारण अंकित किया जाए)</label>
+                        <textarea name="isNightWatchmanAvailReason" rows="4" cols="50" [(ngModel)]="formData.isNightWatchmanAvailReason">
+                      </textarea>
+                      
+                    </div>
+                    
+                </div>
+                
+                
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="" class="mb-1">If there is an ICT Lab in the school, will classes be held or not? / यदि विद्यालय में ICT Lab है , तो कक्षाएं चली अथवा नहीं</label>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input"  name="isIctLabHeld" [value]="1"  [(ngModel)]="formData.isIctLabHeld">
+                            <label class="form-check-label" for="yesRadio">YES हाँ</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input"  name="isIctLabHeld" [value]="2"  [(ngModel)]="formData.isIctLabHeld">
+                            <label class="form-check-label" for="noRadio">No नहीं</label>
+                        </div>
+                    </div>
+                    
+                                        
+                </div>
+
+                   <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="date" class="mb-1">Name Of Inspector <br> निरीक्षणकर्ता का नाम</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" name="investorName" class="form-control" [(ngModel)]="formData.inspectorName">
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="date" class="mb-1">Designation <br> पदनाम</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" name="designation" class="form-control" [(ngModel)]="formData.designation">
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="date" class="mb-1">Mobile Number <br> मोबाईल नंबर</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" name="mobile" class="form-control" [(ngModel)]="formData.mobile" (keypress)="validateMobile($event)" maxlength="10">
+                    </div>
+                </div>
+              
+                <div class="text-center"> 
+                    <button type="submit" class="btn btn-success">Update</button>
+                        <button type="button" class="btn btn-info ml-2" (click)="navigateToView()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-1"></div>
+        
+    </div>
+</div>

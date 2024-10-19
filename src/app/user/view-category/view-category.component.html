@@ -1,0 +1,76 @@
+<app-dashboard></app-dashboard>
+<!DOCTYPE html>
+<html lang="en">
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <h3 class="text-center mb-4">Ctegory Data</h3>
+           <!-- <form class="form-inline" #userForm="ngForm" (ngSubmit)="onSearch()">
+              <div class="form-group mr-md-8"> 
+                <label class="col-form-label mr-4">Role</label>
+                <select class="form-control" name="role" [(ngModel)]="role">
+                  <option value="" selected>--Select Role--</option>
+                  <option *ngFor="let role of roleData" [value]="role.id">
+                    {{ role.role_name }}
+                  </option>
+                </select>
+            </div>
+              <div class="form-group ml-md-4">
+                    <button type="submit" name="search" class="btn btn-primary">Search</button>
+                </div>
+            </form> -->
+            <div class="mt-4">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" (change)="selectAll($event)"></th>
+                  <th>SlNo</th>
+                  <th>Category Name</th>
+                   <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of resultListData | paginate : { itemsPerPage: tableSize,currentPage: page,totalItems: count};
+                       let i = index" >
+                 <td><input type="checkbox" [(ngModel)]="data.selected" required></td>
+                 <td>{{ i + 1 }}</td>
+                  <td>{{ data.categoryName }}</td>
+                <td>
+              <button type="button" class="btn btn-info btn-sm" 
+                data-target="#myModal" data-toggle="modal">
+                <a title="Edit"  
+                 class="edit-btn me-2">
+                <i class="bi bi-pencil-square text-primary"></i>
+                </a>
+               </button>
+             </td>
+                </tr>
+                <td colspan="8">
+                  <div class="form-group ml-md-4">
+                    <button type="button" class="btn btn-success" (click)="updateSelectedRoles()">Submit</button>
+                  </div>
+                </td>
+              </tbody>
+             
+            </table>
+            <div *ngIf="resultListData.length === 0 && !isNorecordFound">
+              <p>No records found.</p>
+            </div>
+            <div class="d-flex justify-content-center">
+            <pagination-controls
+             previousLabel="Prev" nextLabel="Next"  (pageChange)="onTableDataChange($event)">
+              </pagination-controls>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner bdColor="rgba(7,1,1,0.95)" size="small" type="pacman">
+  <p style="color: white">Loading Please Wait... </p>
+</ngx-spinner>
+
+</body>
+</html>
