@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 @Injectable({
@@ -7,15 +7,28 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8000/api';
+  private apiUrl = 'http://127.0.0.1:8000/api';
   private headers = { 'Content-Type': 'application/json' };
+  
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+  }
+
   constructor(private http: HttpClient) {
    }
 
     
-  login(credentials: any): Observable<any> {
+ /*  login(credentials: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials);
-  } 
+  }  */
+
+    login(credentials: any): Observable<any> {
+        return this.http.post(`${this.apiUrl}/login`, credentials,this.httpOptions);
+    }
+    
 
   isLoggedIn(): boolean {
       return localStorage.getItem('token') !== null;
